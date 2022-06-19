@@ -21,7 +21,7 @@ const Dashboard = (): JSX.Element => {
   const { foods, handleAddFood, handleDeleteFood, handleUpdateFood } = useFoods();
 
   const [editingFood, setEditingFood] = useState<Ifood>({} as Ifood);
-  const [modalOpen, setModalOpen] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
   const toggleModal = () => {
@@ -29,19 +29,22 @@ const Dashboard = (): JSX.Element => {
   }
 
   const toggleEditModal = () => {
-
     setEditModalOpen(!editModalOpen);
   }
 
-  const handleEditFood = (food: Ifood) => {
+  // const handleEditFood = (food: Ifood) => {
+  //   setEditingFood(food)
+  //   setEditModalOpen(true)
+  // }
+  function handleEditFood(food:Ifood):any{
     setEditingFood(food)
     setEditModalOpen(true)
   }
 
-  function teste(food: Ifood) {
-    console.log('CHAMANDO FUNCAO TESTE', food);
-    handleEditFood(food)
-  }
+  // function teste(food: Ifood) {
+  //   console.log('CHAMANDO FUNCAO TESTE', food);
+  //   handleEditFood(food)
+  // }
 
   return (
     <>
@@ -61,15 +64,16 @@ const Dashboard = (): JSX.Element => {
 
       <FoodsContainer data-testid="foods-list">
         {
-          foods.map(food2 => (
+          foods.map(food => (
             <Food
-              key={food2.id}
-              food={food2}
+              key={food.id}
+              foodItem={food}
               handleDelete={handleDeleteFood}
-              handleEditFood={() => teste(food2)}
+              handleEditFood={() =>handleEditFood(food)}
             />
           ))}
       </FoodsContainer>
+
     </>
   );
 };

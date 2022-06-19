@@ -8,36 +8,24 @@ import { Container } from './styles';
 
 interface FoodProps {
   id?: number;
-  food: Ifood;
+  foodItem: Ifood;
   handleDelete?: (foodId: Ifood) => Promise<void>;
-  handleEditFood: () => void;
+  handleEditFood: (food:Ifood) => Promise<void>;
 }
 
 
-function Food({ id, handleDelete, handleEditFood, food }: FoodProps) {
-  // const [available, setAvailable] = useState<boolean>(food?.available || true);
-  const [isAvailable, setIsAvailable] = useState<boolean>(true)
-
+function Food({ id, handleDelete, handleEditFood, foodItem }: FoodProps) {
+  const [isAvailable, setIsAvailable] = useState<boolean>(foodItem.available)
   const { foods, handleDeleteFood, } = useFoods();
 
-  // useEffect(() => {
-  //   setIsAvailable(food?.available || false)
-  // }, [])
-
   async function toggleAvailable() {
-    const selectedFood  = food?.id;
-    const available = food.available;
+    const selectedFood = { ...foodItem };
 
-    console.log(selectedFood)
-    const teste = await api.put(`/foods/${selectedFood}`, {
-      ...food,
+    const teste = await api.put(`/foods/${selectedFood.id}`, {
+      ...foodItem,
       available: !isAvailable,
     });
-
-    console.log('SEILA', teste.data);
-
-    setIsAvailable(!available);
-    // setAvailable(!isAvailable)
+    setIsAvailable(!isAvailable);
   }
 
   const [editingFood, setEditingFood] = useState<Ifood>({} as Ifood);
@@ -45,68 +33,61 @@ function Food({ id, handleDelete, handleEditFood, food }: FoodProps) {
   function EditFood() {
     // setFood(food)
 
-    handleEditFood()
-    console.log('CADE', food)
-  }
-
-  function testeNovo(){
-    console.log('MAIS UM TESTE',food)
+    handleEditFood(foodItem)
+    // console.log('CADE', food)
   }
 
   return (
     <>
 
-      {foods && foods.map(foodItem => (
-        <Container key={foodItem.id}>
-          <header>
-            <img src={foodItem.image} alt={foodItem.name} />
-          </header>
-          <section className="body">
-            <h2>{foodItem.name}</h2>
-            <p>{foodItem.description}</p>
-            <p className="price">
-              R$ <b>{foodItem.price}</b>
-            </p>
-          </section>
-          <section className="footer">
-            <div className="icon-container">
-              <button
-                type="button"
-                className="icon"
-                onClick={EditFood}
-                data-testid={`edit-food-${foodItem.id}`}
-              >
-                <FiEdit3 size={20} />
-              </button>
+      <Container available={isAvailable} key={foodItem.id}>
+        <header>
+          <img src={foodItem.image} alt={foodItem.name} />
+        </header>
+        <section className="body">
+          <h2>{foodItem.name}</h2>
+          <p>{foodItem.description}</p>
+          <p className="price">
+            R$ <b>{foodItem.price}</b>
+          </p>
+        </section>
+        <section className="footer">
+          <div className="icon-container">
+            <button
+              type="button"
+              className="icon"
+              onClick={EditFood}
+              data-testid={`edit-food-${foodItem.id}`}
+            >
+              <FiEdit3 size={20} />
+            </button>
 
-              <button
-                type="button"
-                className="icon"
-                onClick={() => handleDeleteFood(foodItem)}
-                data-testid={`remove-food-${foodItem.id}`}
-              >
-                <FiTrash size={20} />
-              </button>
-            </div>
+            <button
+              type="button"
+              className="icon"
+              onClick={() => handleDeleteFood(foodItem)}
+              data-testid={`remove-food-${foodItem.id}`}
+            >
+              <FiTrash size={20} />
+            </button>
+          </div>
 
-            <div className="availability-container">
-              <p>{isAvailable ? 'Disponível' : 'Indisponível'}</p>
+          <div className="availability-container">
+            <p>{isAvailable ? 'Disponível' : 'Indisponível'}</p>
 
-              <label htmlFor={`available-switch-${foodItem.id}`} className="switch">
-                <input
-                  id={`available-switch-${foodItem.id}`}
-                  type="checkbox"
-                  checked={isAvailable}
-                  onChange={toggleAvailable}
-                  onClick={testeNovo}
-                  data-testid={`change-status-food-${foodItem.id}`}
-                />
-                <span className="slider" />
-              </label>
-            </div>
-          </section>
-        </Container>
-      ))}
+            <label htmlFor={`available-switch-${foodItem.id}`} className="switch">
+              <input
+                id={`available-switch-${foodItem.id}`}
+                type="checkbox"
+                checked={isAvailable}
+                onChange={toggleAvailable}
+                data-testid={`change-status-food-${foodItem.id}`}
+              />
+              <span className="slider" />
+            </label>
+          </div>
+        </section>
+      </Container>
     </>
 
   );
