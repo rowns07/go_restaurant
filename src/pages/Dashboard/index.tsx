@@ -21,7 +21,7 @@ const Dashboard = (): JSX.Element => {
   const { foods, handleAddFood, handleDeleteFood, handleUpdateFood } = useFoods();
 
   const [editingFood, setEditingFood] = useState<Ifood>({} as Ifood);
-  const [modalOpen, setModalOpen] = useState<boolean>();
+  const [modalOpen, setModalOpen] = useState<boolean>(true);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
   const toggleModal = () => {
@@ -48,7 +48,8 @@ const Dashboard = (): JSX.Element => {
       <Header openModal={toggleModal} />
       <ModalAddFood
         isOpen={modalOpen}
-        setIsOpen={toggleModal}
+        // setIsOpen={toggleModal}
+        onRequestClose={toggleModal}
         handleAddFood={handleAddFood}
       />
       <ModalEditFood

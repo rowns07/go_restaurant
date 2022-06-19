@@ -5,15 +5,18 @@ import Routes from './routes';
 
 import GlobalStyle from './styles/global';
 
-const App = () => (
-  <>
-    <FoodProvider>
-      <GlobalStyle />
-      <Router>
-        <Routes />
-      </Router>
-    </FoodProvider>
-  </>
-);
+export function App() {
+
+  return (
+    <>
+      <FoodProvider>
+        <GlobalStyle />
+        <Router>
+          <Routes />
+        </Router>
+      </FoodProvider>
+    </>
+  );
+}
 
 export default App;
