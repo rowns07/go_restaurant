@@ -12,7 +12,8 @@ import { Container } from './styles';
 interface InputProps {
   name: string;
   icon?: any;
-  placeholder:string;
+  placeholder: string;
+  onChange?: (event:any) => void;
 }
 
 const Input = ({ name, icon: Icon, ...rest }: InputProps) => {

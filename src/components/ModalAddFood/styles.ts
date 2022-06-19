@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Form as Unform } from '@unform/web';
 
-export const Form = styled.form`
+export const Form = styled(Unform)`
   padding: 48px 40px;
   display: flex;
   flex-direction: column;
@@ -40,5 +40,16 @@ export const Form = styled.form`
       border-radius: 0 8px 8px 0;
       margin: 0 auto;
     }
+
+    input {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    color: #b7b7cc;
+
+    &::placeholder {
+      color: #b7b7cc;
+    }
+  }
   }
 `;

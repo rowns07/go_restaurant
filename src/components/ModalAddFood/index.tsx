@@ -1,10 +1,10 @@
-import { Component, createRef, FormEvent, useRef, useState } from 'react';
+import { FormHandles } from '@unform/core';
+import { FormEvent, useRef, useState } from 'react';
 import { FiCheckSquare } from 'react-icons/fi';
 
-import { Form } from './styles';
-// import Modal from '../Modal';
-// import Input from '../Input';
+import Input from '../Input';
 import Modal from '../Modal';
+import { Form } from './styles';
 
 interface ModallAddFoodProps {
   isOpen: boolean;
@@ -12,41 +12,49 @@ interface ModallAddFoodProps {
   handleAddFood: (food: any) => Promise<void>;
 }
 
-function ModalAddFood({ isOpen,onRequestClose }: ModallAddFoodProps) {
-  const formRef = useRef<HTMLInputElement>(null);
+function ModalAddFood({ isOpen, onRequestClose, handleAddFood }: ModallAddFoodProps) {
+  const ref = useRef<FormHandles>(null);
+  const [image, setImage] = useState<string>('');
+  const [name, setName] = useState<any>('');
+  const [price, setPrice] = useState<any>('');
+  const [description, setDescription] = useState<any>('');
 
 
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault()
-    // const { setIsOpen, handleAddFood } = this.props;
-    // handleAddFood(data);
-    // setIsOpen();
-    // handleCloseNewTransactionModal()
+  function handleSubmit(e: FormEvent<HTMLInputElement>) {
+    const data = {
+      image,
+      name,
+      price,
+      description,
+    }
+    handleAddFood(data);
+    onRequestClose()
   };
-
-  // const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
-
-  // function handleOpenNewTransactionModal() {
-  //   setIsNewTransactionModalOpen(true);
-  // }
-
-  // function handleCloseNewTransactionModal() {
-  //   setIsNewTransactionModalOpen(false);
-  // }
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      >
-      <Form onSubmit={handleSubmit}>
+    >
+      <Form onSubmit={handleSubmit} ref={ref}>
         <h1>Novo Prato</h1>
-        <input value="image" placeholder="Cole o link aqui"  />
+        <Input name="image"
+          placeholder="Cole o link aqui"
+          onChange={e => setImage(e.target.value)}
+        />
+        <Input name="name"
+          placeholder="Ex: Moda Italiana"
+          onChange={e => setName(e.target.value)}
+        />
+        <Input name="price"
+          placeholder="Ex: 19.90"
+          onChange={e => setPrice(e.target.value)}
+        />
+        <Input name="description"
+          placeholder="Descrição"
+          onChange={e => setDescription(e.target.value)}
+        />
 
-        <input name="name" placeholder="Ex: Moda Italiana" />
-        <input name="price" placeholder="Ex: 19.90" />
-
-        <input name="description" placeholder="Descrição" />
         <button type="submit" data-testid="add-food-button">
           <p className="text">Adicionar Prato</p>
           <div className="icon">
