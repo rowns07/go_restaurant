@@ -1,25 +1,15 @@
-import { Component, useState } from 'react';
+import { useState } from 'react';
 import { FiPlusSquare } from 'react-icons/fi';
 
-import { Container } from './styles';
 import Logo from '../../assets/logo.svg';
+import { Container } from './styles';
 
 interface HeaderProps {
   openModal: () => void
 }
 
-function Header({openModal}:HeaderProps) {
+function Header({ openModal }: HeaderProps) {
 
-  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
-
-  function handleOpenNewTransactionModal() {
-    setIsNewTransactionModalOpen(true);
-    console.log('abrindo modal')
-  }
-
-  function handleCloseNewTransactionModal() {
-    setIsNewTransactionModalOpen(false);
-  }
   return (
     <Container>
       <header>
