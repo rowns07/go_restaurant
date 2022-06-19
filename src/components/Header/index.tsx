@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { FiPlusSquare } from 'react-icons/fi';
 
 import Logo from '../../assets/logo.svg';
