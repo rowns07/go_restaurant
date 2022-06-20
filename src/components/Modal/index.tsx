@@ -1,4 +1,4 @@
-import { Component, ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import ReactModal from 'react-modal';
 
 ReactModal.setAppElement('*');

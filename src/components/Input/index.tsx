@@ -14,6 +14,7 @@ interface InputProps {
   icon?: any;
   placeholder: string;
   onChange?: (event:any) => void;
+  value?:any;
 }
 
 const Input = ({ name, icon: Icon, ...rest }: InputProps) => {
@@ -23,15 +24,12 @@ const Input = ({ name, icon: Icon, ...rest }: InputProps) => {
   const [isFilled, setIsFilled] = useState(false);
 
   const { fieldName, defaultValue, registerField } = useField(name);
-
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
   }, []);
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
-    console.log('CLICOU FILHO')
-
     setIsFilled(!!inputRef.current?.target);
   }, []);
 
@@ -52,6 +50,7 @@ const Input = ({ name, icon: Icon, ...rest }: InputProps) => {
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
         ref={inputRef}
+        // value={value}
         {...rest}
       />
     </Container>

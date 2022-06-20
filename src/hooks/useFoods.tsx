@@ -16,10 +16,9 @@ interface FoodProviderProps {
 
 interface FoodContextData {
   foods: Ifood[];
-  handleAddFood: (food1:Ifood) => Promise<void>;
-  handleUpdateFood:() => void;
-  handleDeleteFood: (food:Ifood) => Promise<void>;
-  // handleSelectedFood: (food:Ifood) => Promise<void>;
+  handleAddFood: (food1: Ifood) => Promise<void>;
+  handleUpdateFood: (food: Ifood) => Promise<void>;
+  handleDeleteFood: (food: Ifood) => Promise<void>;
 }
 
 const FoodContext = createContext<FoodContextData>({} as FoodContextData)
@@ -27,17 +26,13 @@ const FoodContext = createContext<FoodContextData>({} as FoodContextData)
 export function FoodProvider({ children }: FoodProviderProps) {
 
   const [foods, setFoods] = useState<Ifood[]>([]);
-  const [editingFood, setEditingFood] = useState<Ifood>({} as Ifood);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
-  const [food, setFood] = useState<Ifood>();
 
   useEffect(() => {
-
-    api.get<Ifood[]>('foods').then(response =>{ 
-      console.log(response.data)
-      setFoods(response.data)
-    })
+    async function loadItens() {
+      const responseFoods = await api.get<Ifood[]>('foods');
+      setFoods(responseFoods.data)
+    }
+    loadItens()
   }, [])
 
   async function handleAddFood(food: Ifood) {
@@ -56,15 +51,15 @@ export function FoodProvider({ children }: FoodProviderProps) {
     }
   }
 
-  async function handleUpdateFood() {
+  async function handleUpdateFood(editFood: Ifood) {
 
-    const updatedFood = [...foods]
+    // const updatedFood = {...editFood}
+
     try {
       const foodUpdated = await api.put<Ifood>(
-        `/foods/${editingFood.id}`,
+        `/foods/${editFood.id}`,
         {
-          ...editingFood,
-          ...updatedFood
+          ...editFood
         },
       );
 
@@ -87,20 +82,8 @@ export function FoodProvider({ children }: FoodProviderProps) {
 
   }
 
-  //  function handleSelectedFood(food:Ifood){
-  //    api.get(`'foods/${food.id}'`).then(response =>{
-  //     console.log(response.data)
-  //     setFood(response.data)
-  //   })
-  // }
-
-  const handleEditFood = (food: Ifood) => {
-    setEditingFood(food)
-    setEditModalOpen(true)
-  }
-
   return (
-    <FoodContext.Provider value={{ foods, handleAddFood, handleUpdateFood, handleDeleteFood,  }}>
+    <FoodContext.Provider value={{ foods, handleAddFood, handleUpdateFood, handleDeleteFood, }}>
       {children}
     </FoodContext.Provider>
   )

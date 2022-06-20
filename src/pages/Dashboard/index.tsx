@@ -38,7 +38,8 @@ const Dashboard = (): JSX.Element => {
   // }
   function handleEditFood(food:Ifood):any{
     setEditingFood(food)
-    setEditModalOpen(true)
+    setEditModalOpen(true);
+    console.log('Abrindo modal',food)
   }
 
   // function teste(food: Ifood) {
@@ -57,7 +58,8 @@ const Dashboard = (): JSX.Element => {
       />
       <ModalEditFood
         isOpen={editModalOpen}
-        setIsOpen={toggleEditModal}
+        onRequestClose={toggleEditModal}
+        // setIsOpen={toggleEditModal}
         editingFood={editingFood}
         handleUpdateFood={handleUpdateFood}
       />

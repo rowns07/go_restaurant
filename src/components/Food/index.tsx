@@ -10,31 +10,26 @@ interface FoodProps {
   id?: number;
   foodItem: Ifood;
   handleDelete?: (foodId: Ifood) => Promise<void>;
-  handleEditFood: (food:Ifood) => Promise<void>;
+  handleEditFood: (food: Ifood) => Promise<void>;
 }
 
 
-function Food({ id, handleDelete, handleEditFood, foodItem }: FoodProps) {
+function Food({handleEditFood, foodItem }: FoodProps) {
   const [isAvailable, setIsAvailable] = useState<boolean>(foodItem.available)
   const { foods, handleDeleteFood, } = useFoods();
 
   async function toggleAvailable() {
     const selectedFood = { ...foodItem };
 
-    const teste = await api.put(`/foods/${selectedFood.id}`, {
+    await api.put(`/foods/${selectedFood.id}`, {
       ...foodItem,
       available: !isAvailable,
     });
     setIsAvailable(!isAvailable);
   }
 
-  const [editingFood, setEditingFood] = useState<Ifood>({} as Ifood);
-
   function EditFood() {
-    // setFood(food)
-
     handleEditFood(foodItem)
-    // console.log('CADE', food)
   }
 
   return (
